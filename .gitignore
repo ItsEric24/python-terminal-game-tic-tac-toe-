@@ -1,0 +1,16 @@
+# Ignore virtual environments
+.env/
+.venv/
+
+# Ignore Python-specific files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyd
+
+# Pipenv files
+Pipfile.lock
+
+# VSCode settings
+.vscode/
