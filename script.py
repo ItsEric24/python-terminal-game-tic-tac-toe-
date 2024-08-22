@@ -1,3 +1,5 @@
+from random import choice
+
 print("Welcome to The Tic Tac Toe Game")
 print("\n")
 print("##########    ##########   ########## ")
@@ -17,7 +19,6 @@ game_board = [
 ]
 
 # * Game Logic:
-
 
 def display_board(board):
     for i in range(len(board)):
@@ -110,6 +111,19 @@ def check_win(board):
     # return no win
     return False
     
+def computer_move(computer_piece):
+    available_positions = [cell for row in game_board for cell in row if cell not in ["X", "O"]]
+    computer_pos = choice(available_positions)
+
+    for i in range(len(game_board)):
+        for j in range(len(game_board[i])):
+            if computer_pos == game_board[i][j]:
+                board_pos = game_board[i][j]
+                game_board[i][j] = computer_piece
+                print(f"Computer played position {board_pos}")
+                display_board(game_board)
+                return
+                
 # Ask player or players if they will play multiplayer or if he/she will play single player with computer.
 multiplayer_or_single_player = input(
     "Do you want to play another user(y/n)?: ")
@@ -134,7 +148,6 @@ if multiplayer_or_single_player.lower() == "y":
     print("\n")
     print("This is the board\n")
     display_board(game_board)
-    filled = check_filled(game_board)
     player_1_turn = True
     
     while True:
@@ -165,5 +178,46 @@ if multiplayer_or_single_player.lower() == "y":
 
 else:
     player_1 = input("Enter your player name: ").title()
+    player_1_piece = input(f"{player_1} choose 'X' or 'O': ").upper()
+    computer_piece = ""
+
+    if player_1_piece not in ["X", "O"]:
+        player_1_piece = input(f"{player_1} choose a valid option; 'X' or 'O': ").upper()
+
+    if player_1_piece == "X":
+        computer_piece = "O"
+    else:
+        computer_piece = "X"
+
+    print(f"{player_1} you are {player_1_piece}")
+    print(f"Computer is {computer_piece}")
+    print("\n")
     print("This is the board\n")
     display_board(game_board)
+    player_1_turn = True
+
+    while True:
+
+        if player_1_turn:
+            player1_move(player_1, player_1_piece)
+
+            if check_win(game_board):
+                print(f"{player_1} ({player_1_piece}) WINNS the Game!!")
+                display_board(game_board)
+                break
+            player_1_turn = False
+        
+        else:
+            computer_move(computer_piece)
+
+            if check_win(game_board):
+                print(f"Computer ({computer_piece}) WINNNS the Game!!")
+                display_board(game_board)
+                break
+            
+            player_1_turn = True
+
+        if check_filled(game_board):
+            print("It was Draw!")
+            display_board(game_board)
+            break
