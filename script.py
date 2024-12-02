@@ -21,7 +21,6 @@ game_board = [
 # * Game Logic:
 
 def display_board(board):
-    print("Welcome to the game once again!")
     for i in range(len(board)):
         print("  |  ".join(board[i]))
         if i < len(board) - 1:
